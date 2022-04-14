@@ -8,6 +8,9 @@ const admin = require("firebase-admin");
 const { MongoClient } = require('mongodb');
 const port = process.env.PORT || 5000;
 
+app.use(cors({origin: "*"}));
+app.use(express.json());
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 // const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
@@ -16,8 +19,7 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
-app.use(cors({origin: "*"}));
-app.use(express.json());
+
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ucxei.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
